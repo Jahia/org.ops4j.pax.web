@@ -11,6 +11,7 @@
 
 	<groupId>org.ops4j.pax.web</groupId>
 	<artifactId>pax-web-jsp</artifactId>
+	<version>3.0.7-jahia1-SNAPSHOT</version>
 	<packaging>bundle</packaging>
 
 	<name>OPS4J Pax Web - Jsp Support</name>
@@ -41,6 +42,8 @@
 							javax.servlet.http; version="[2.3.0,3.1.0)",
 							javax.el.*; version="[2.1.0,3.1.0)",
 							javax.naming,
+							org.eclipse.jdt.core.index; resolution:=optional,
+							org.eclipse.jdt.core.util; resolution:=optional,
 							org.w3c.dom,
 							org.w3c.dom.ls; resolution:=optional,
 							org.w3c.dom.traversal; resolution:=optional,
@@ -216,7 +219,7 @@
 		<dependency>
 			<groupId>org.eclipse.jdt.core.compiler</groupId>
 			<artifactId>ecj</artifactId>
-			<version>3.5.1</version>
+			<version>P20140317-1600</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

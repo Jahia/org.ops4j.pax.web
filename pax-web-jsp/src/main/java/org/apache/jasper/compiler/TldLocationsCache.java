@@ -38,8 +38,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.JarURLConnection;
 import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.URLConnection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -105,7 +103,6 @@ public class TldLocationsCache {
 	private static Log log = LogFactory.getLog(TldLocationsCache.class);
 
 	private static final String WEB_XML = "/WEB-INF/web.xml";
-	private static final String FILE_PROTOCOL = "file:";
 	private static final String JAR_FILE_SUFFIX = ".jar";
 
 	// Names of JARs that are known not to contain any TLDs
@@ -152,51 +149,51 @@ public class TldLocationsCache {
 		// systemUrisJsf.add("http://java.sun.com/jsf/html");
 		// systemUris.add("http://java.sun.com/jsp/jstl/core");
 
-		noTldJars = new HashSet<String>();
-		// Bootstrap JARs
-		noTldJars.add("bootstrap.jar");
-		noTldJars.add("commons-daemon.jar");
-		noTldJars.add("tomcat-juli.jar");
-		// Main JARs
-		noTldJars.add("annotations-api.jar");
-		noTldJars.add("catalina.jar");
-		noTldJars.add("catalina-ant.jar");
-		noTldJars.add("catalina-ha.jar");
-		noTldJars.add("catalina-tribes.jar");
-		noTldJars.add("el-api.jar");
-		noTldJars.add("jasper.jar");
-		noTldJars.add("jasper-el.jar");
-		noTldJars.add("jasper-jdt.jar");
-		noTldJars.add("jsp-api.jar");
-		noTldJars.add("servlet-api.jar");
-		noTldJars.add("tomcat-coyote.jar");
-		noTldJars.add("tomcat-dbcp.jar");
-		// i18n JARs
-		noTldJars.add("tomcat-i18n-en.jar");
-		noTldJars.add("tomcat-i18n-es.jar");
-		noTldJars.add("tomcat-i18n-fr.jar");
-		noTldJars.add("tomcat-i18n-ja.jar");
-		// Misc JARs not included with Tomcat
-		noTldJars.add("ant.jar");
-		noTldJars.add("commons-dbcp.jar");
-		noTldJars.add("commons-beanutils.jar");
-		noTldJars.add("commons-fileupload-1.0.jar");
-		noTldJars.add("commons-pool.jar");
-		noTldJars.add("commons-digester.jar");
-		noTldJars.add("commons-logging.jar");
-		noTldJars.add("commons-collections.jar");
-		noTldJars.add("jmx.jar");
-		noTldJars.add("jmx-tools.jar");
-		noTldJars.add("xercesImpl.jar");
-		noTldJars.add("xmlParserAPIs.jar");
-		noTldJars.add("xml-apis.jar");
-		// JARs from J2SE runtime
-		noTldJars.add("sunjce_provider.jar");
-		noTldJars.add("ldapsec.jar");
-		noTldJars.add("localedata.jar");
-		noTldJars.add("dnsns.jar");
-		noTldJars.add("tools.jar");
-		noTldJars.add("sunpkcs11.jar");
+//		noTldJars = new HashSet<String>();
+//		// Bootstrap JARs
+//		noTldJars.add("bootstrap.jar");
+//		noTldJars.add("commons-daemon.jar");
+//		noTldJars.add("tomcat-juli.jar");
+//		// Main JARs
+//		noTldJars.add("annotations-api.jar");
+//		noTldJars.add("catalina.jar");
+//		noTldJars.add("catalina-ant.jar");
+//		noTldJars.add("catalina-ha.jar");
+//		noTldJars.add("catalina-tribes.jar");
+//		noTldJars.add("el-api.jar");
+//		noTldJars.add("jasper.jar");
+//		noTldJars.add("jasper-el.jar");
+//		noTldJars.add("jasper-jdt.jar");
+//		noTldJars.add("jsp-api.jar");
+//		noTldJars.add("servlet-api.jar");
+//		noTldJars.add("tomcat-coyote.jar");
+//		noTldJars.add("tomcat-dbcp.jar");
+//		// i18n JARs
+//		noTldJars.add("tomcat-i18n-en.jar");
+//		noTldJars.add("tomcat-i18n-es.jar");
+//		noTldJars.add("tomcat-i18n-fr.jar");
+//		noTldJars.add("tomcat-i18n-ja.jar");
+//		// Misc JARs not included with Tomcat
+//		noTldJars.add("ant.jar");
+//		noTldJars.add("commons-dbcp.jar");
+//		noTldJars.add("commons-beanutils.jar");
+//		noTldJars.add("commons-fileupload-1.0.jar");
+//		noTldJars.add("commons-pool.jar");
+//		noTldJars.add("commons-digester.jar");
+//		noTldJars.add("commons-logging.jar");
+//		noTldJars.add("commons-collections.jar");
+//		noTldJars.add("jmx.jar");
+//		noTldJars.add("jmx-tools.jar");
+//		noTldJars.add("xercesImpl.jar");
+//		noTldJars.add("xmlParserAPIs.jar");
+//		noTldJars.add("xml-apis.jar");
+//		// JARs from J2SE runtime
+//		noTldJars.add("sunjce_provider.jar");
+//		noTldJars.add("ldapsec.jar");
+//		noTldJars.add("localedata.jar");
+//		noTldJars.add("dnsns.jar");
+//		noTldJars.add("tools.jar");
+//		noTldJars.add("sunpkcs11.jar");
 	}
 
 	/*
@@ -330,7 +327,7 @@ public class TldLocationsCache {
 		if (initialized) {
 			return;
 		}
-
+		
 		// START GlassFish 747
 		HashMap<String, String[]> tldUriToLocationMap = (HashMap<String, String[]>) ctxt
 				.getAttribute(Constants.JSP_TLD_URI_TO_LOCATION_MAP);
@@ -362,6 +359,10 @@ public class TldLocationsCache {
 
 			// START GlassFish 747
 			if (!localTldsProcessed) {
+				// Added for Jahia OSGi bundle to be able to use "local" tag libraries,
+				// defined in the same bundle
+				processTldsInFileSystem("/META-INF/");
+				
 				processTldsInFileSystem("/WEB-INF/");
 			}
 			// END Glassfish 747
@@ -691,65 +692,16 @@ public class TldLocationsCache {
 			}
 		}
 		// END GlassFish 747
-
-		while (loader != null) {
-			if (loader instanceof URLClassLoader) {
-				boolean isLocal = (loader == webappLoader);
-				URL[] urls = ((URLClassLoader) loader).getURLs();
-				for (int i = 0; i < urls.length; i++) {
-					URLConnection conn;
-					try {
-						conn = urls[i].openConnection();
-					} catch (Exception e) { //CHECKSTYLE:SKIP
-						continue;
-					}
-					if (conn instanceof JarURLConnection) {
-						if (needScanJar(((JarURLConnection) conn).getJarFile()
-								.getName(), isLocal)) {
-							scanJar((JarURLConnection) conn, true);
-						}
-					} else {
-						String urlStr = urls[i].toString();
-						if (urlStr.startsWith(FILE_PROTOCOL)
-								&& urlStr.endsWith(JAR_FILE_SUFFIX)
-								&& needScanJar(urlStr, isLocal)) {
-							URL jarURL = new URL("jar:" + urlStr + "!/");
-							scanJar((JarURLConnection) jarURL.openConnection(),
-									true);
-						}
-					}
-				}
-			}
-
-			loader = loader.getParent();
-
-		}
-	}
-
-	/*
-	 * Determines if the JAR file with the given <tt>jarPath</tt> needs to be
-	 * scanned for TLDs.
-	 * 
-	 * @param jarPath The JAR file path
-	 * 
-	 * @param isLocal true if the JAR file with the given jarPath is local to
-	 * the webapp (and therefore needs to be scanned unconditionally), false
-	 * otherwise
-	 * 
-	 * @return true if the JAR file identified by <tt>jarPath</tt> needs to be
-	 * scanned for TLDs, false otherwise
-	 */
-	private boolean needScanJar(String jarPath, boolean isLocal) {
-
-		if (isLocal) {
-			return true;
-		}
-
-		String jarName = jarPath;
-		int slash = jarPath.lastIndexOf('/');
-		if (slash >= 0) {
-			jarName = jarPath.substring(slash + 1);
-		}
-		return ((noTldJars == null) || !noTldJars.contains(jarName));
+		
+                JarScanner.scan(loader, new JarScannerCallback() {
+                    @Override
+                    public void scan(JarURLConnection urlConn) throws IOException {
+                        try {
+                            scanJar(urlConn, true);
+                        } catch (JasperException e) {
+                            throw new IOException(e.getCause());
+                        }
+                    }
+                }, noTldJars);
 	}
 }
