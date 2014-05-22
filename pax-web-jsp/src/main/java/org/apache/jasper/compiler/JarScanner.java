@@ -69,15 +69,13 @@
  */
 package org.apache.jasper.compiler;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.JarURLConnection;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.URLConnection;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.net.*;
+import java.util.*;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 
 /**
  * Utility class to traverse the class loader hierarchy and lookup for JAR files.
@@ -132,9 +130,106 @@ final class JarScanner {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else if (loader.getClass().getName().equals("com.ibm.ws.classloader.CompoundClassLoader")) {
+            try {
+                Field localClassPathField = loader.getClass().getDeclaredField("localClassPath");
+                if (localClassPathField != null)  {
+                    localClassPathField.setAccessible(true);
+                    String localClassPathList = (String) localClassPathField.get(loader);
+                    if (localClassPathList != null)  {
+                        List<URL> urls = new LinkedList<URL>();
+                        String[] localClassPaths = localClassPathList.split(File.pathSeparator);
+                        for (String localClassPath : localClassPaths) {
+                            File localClassPathFile = new File(localClassPath);
+                            if (localClassPathFile.exists()) {
+                                if (localClassPathFile.isFile()) {
+                                    if (localClassPathFile.getName().endsWith(".jar")) {
+                                        urls.add(localClassPathFile.toURI().toURL());
+                                        // System.out.println("Adding JAR found in IBM classpath:" + localClassPathFile);
+                                    }
+                                }
+                            }
+                        }
+                        foundUrls = urls.size() > 0 ? urls.toArray(new URL[] {}) : null;
+                    }
+                }
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Defaulting to classpath scanning for class loader " + loader.getClass().getName());
+            Enumeration<URL> resources = null;
+            try {
+                resources = loader.getResources("/");
+                if (resources != null && resources.hasMoreElements()) {
+                    List<URL> urls = new LinkedList<URL>();
+                    List<File> allFiles = new ArrayList<File>();
+                    while (resources.hasMoreElements()) {
+                        URL u = resources.nextElement();
+                        if (u.getProtocol().equals("file")) {
+                            File urlFile = new File(u.getFile());
+                            if (urlFile.exists()) {
+                                if (urlFile.isDirectory()) {
+                                    recursiveListFiles(urlFile, allFiles);
+                                }
+                            }
+                        }
+                    }
+
+                    if (loader.getResource("/WEB-INF/web.xml") != null) {
+                        // we are in the case of a web application class loader.
+                        for (File currentFile : allFiles) {
+                            if (currentFile.getPath().contains("/WEB-INF/lib") &&
+                                    currentFile.getName().endsWith(".jar")) {
+                                urls.add(currentFile.toURI().toURL());
+                                System.out.println("Adding JAR found in web application classpath:" + currentFile);
+                            }
+                        }
+                    }
+
+                    if (loader.getResource("/META-INF/MANIFEST.MF") != null) {
+                        Manifest manifest = new Manifest(loader.getResourceAsStream("/META-INF/MANIFEST.MF"));
+                        Attributes mainAttributes = manifest.getMainAttributes();
+                        String bundleClassPath = mainAttributes.getValue("Bundle-ClassPath");
+                        if (bundleClassPath != null) {
+                            String[] bundleClassPathEntries = bundleClassPath.split(",");
+                            for (String bundleClassPathEntry : bundleClassPathEntries) {
+                                for (File currentFile : allFiles) {
+                                    if (currentFile.getPath().endsWith(bundleClassPathEntry) &&
+                                            (currentFile.getName().endsWith(".jar"))) {
+                                        urls.add(currentFile.toURI().toURL());
+                                        System.out.println("Adding JAR found in bundle classpath:" + currentFile);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    foundUrls = urls.size() > 0 ? urls.toArray(new URL[] {}) : null;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return foundUrls;
+    }
+
+    private static void recursiveListFiles(File parent, List<File> result) throws MalformedURLException {
+        File[] childFiles = parent.listFiles();
+        for (File childFile : childFiles) {
+            if (childFile.isDirectory()) {
+                recursiveListFiles(childFile, result);
+            } else {
+                if (childFile.isFile()) {
+                    result.add(childFile);
+                }
+            }
+        }
     }
 
     private static void process(URL url, JarScannerCallback callback) throws IOException {
