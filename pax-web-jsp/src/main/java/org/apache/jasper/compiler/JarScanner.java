@@ -161,7 +161,10 @@ final class JarScanner {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("Defaulting to classpath scanning for class loader " + loader.getClass().getName());
+            String loaderName = loader.getClass().getName();
+            if (!"org.apache.felix.framework.BundleWiringImpl$BundleClassLoaderJava5".equals(loaderName)) {
+                System.out.println("Defaulting to classpath scanning for class loader " + loaderName);
+            }
             Enumeration<URL> resources = null;
             try {
                 resources = loader.getResources("/");
