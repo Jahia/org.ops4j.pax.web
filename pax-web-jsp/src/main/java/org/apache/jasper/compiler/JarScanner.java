@@ -72,6 +72,8 @@ package org.apache.jasper.compiler;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.*;
 import java.util.*;
 import java.util.jar.Attributes;
@@ -245,8 +247,7 @@ final class JarScanner {
             if (urlStr.startsWith("file:") && urlStr.endsWith(".jar")) {
                 jarURL = "jar:" + urlStr + "!/";
             } else if (urlStr.startsWith("vfs:") && urlStr.endsWith(".jar/")) {
-                // we handle currently only exploded Jahia Web application deployment
-                jarURL = "jar:file:" + urlStr.substring("vfs:".length(), urlStr.length() - 1) + "!/";
+                jarURL = resolveJarUrlFromVfs(conn, urlStr);
             }
             if (jarURL != null) {
                 callback.scan((JarURLConnection) new URL(jarURL).openConnection());
@@ -254,7 +255,39 @@ final class JarScanner {
         }
     }
 
-    public static void scan(ClassLoader loader, JarScannerCallback callback, HashSet<String> noTldJars) {
+	private static String resolveJarUrlFromVfs(URLConnection conn, String urlStr) {
+		String jarUrl = null;
+		try {
+			Object content = conn.getContent();
+			if (content != null
+					&& content.getClass().getName()
+							.equals("org.jboss.vfs.VirtualFile")) {
+				File file = (File) invoke(content, "getPhysicalFile");
+				if (file != null && file.getName().equals("contents")) {
+					File jarFile = new File(file.getParentFile(),
+							(String) invoke(content, "getName"));
+					jarUrl = "jar:" + jarFile.toURI() + "!/";
+				}
+			}
+		} catch (Exception e) {
+			System.err.println("Error resolving JAR file for VFS URL: "
+					+ urlStr + ". Cause: " + e.getLocalizedMessage());
+		}
+		return jarUrl;
+	}
+    
+	private static Object invoke(Object target, String method, Object... args)
+			throws NoSuchMethodException, SecurityException,
+			IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException {
+		Method m = target.getClass().getDeclaredMethod(method);
+		if (!m.isAccessible()) {
+			m.setAccessible(true);
+		}
+		return m.invoke(target, args);
+	}
+
+	public static void scan(ClassLoader loader, JarScannerCallback callback, HashSet<String> noTldJars) {
         SkipConfig skipCfg = noTldJars == null || noTldJars.isEmpty() ? SkipConfig.DEFAULT : new SkipConfig(noTldJars);
 
         // we won't scan the bootstrap CL
