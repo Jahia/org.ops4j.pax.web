@@ -148,7 +148,8 @@
 							org/apache/jasper/compiler/JspRuntimeContext.class=target/classes/org/apache/jasper/compiler/JspRuntimeContext.class,
 							org/apache/jasper/compiler/TagLibraryInfoImpl.class=target/classes/org/apache/jasper/compiler/TagLibraryInfoImpl.class,
 							org/apache/jasper/servlet/JspServletWrapper.class=target/classes/org/apache/jasper/servlet/JspServletWrapper.class,
-							javax/el/FactoryFinder.class=target/classes/javax/el/FactoryFinder.class
+							javax/el/FactoryFinder.class=target/classes/javax/el/FactoryFinder.class,
+                            org/apache/taglibs/standard/tlv/JstlBaseTLV.class=target/classes/org/apache/taglibs/standard/tlv/JstlBaseTLV.class
 						</Include-Resource>
 						<Embed-Dependency>*; scope=compile; type=!pom; inline=true</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
