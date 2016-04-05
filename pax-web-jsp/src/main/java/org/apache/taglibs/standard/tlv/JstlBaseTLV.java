@@ -145,7 +145,7 @@ public abstract class JstlBaseTLV extends TagLibraryValidator {
 	init();
     }
 
-    private void init() {
+    private synchronized void init() {
 	messageVector = null;
 	prefix = null;
 	config = null;
@@ -286,7 +286,7 @@ public abstract class JstlBaseTLV extends TagLibraryValidator {
      * method to assist with failure [ as if it's not easy enough
      * already :-) ]
      */
-    protected void fail(String message) {
+    protected synchronized void fail(String message) {
         failed = true;
         messageVector.add(new ValidationMessage(lastElementId, message));
     }
