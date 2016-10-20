@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.wiring.BundleRevision;
 import org.osgi.framework.wiring.BundleWire;
 import org.osgi.framework.wiring.BundleWiring;
 import org.slf4j.Logger;
@@ -113,8 +114,8 @@ public class ClassPathUtil {
 	private static URL getLocationOfBundle(Bundle importedBundle) {
 		URL url = null;
 		try {
-			url = new URL(importedBundle.getLocation());
-		} catch (MalformedURLException e) {
+			url = (URL) invokeMethod(importedBundle.adapt(BundleRevision.class), "getContent", "getFile", "toURI", "toURL");
+		} catch (Exception e) {
 			try {
 				url = importedBundle.getEntry("/");
 				// CHECKSTYLE:SKIP
@@ -123,6 +124,13 @@ public class ClassPathUtil {
 			}
 		}
 		return url;
+	}
+
+	private static Object invokeMethod(Object object, String... methods) throws Exception {
+		for (String method : methods) {
+			object = object.getClass().getMethod(method).invoke(object);
+		}
+		return object;
 	}
 
 	/**
