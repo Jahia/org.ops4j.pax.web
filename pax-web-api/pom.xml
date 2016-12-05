@@ -12,7 +12,7 @@
     <groupId>org.ops4j.pax.web</groupId>
     <artifactId>pax-web-api</artifactId>
     <packaging>bundle</packaging>
-    <version>3.0.7-jahia1-SNAPSHOT</version>
+    <version>3.0.7-jahia1</version>
 
     <name>OPS4J Pax Web - API</name>
     <description>
