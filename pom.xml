@@ -27,7 +27,7 @@
 
 	<groupId>org.ops4j.pax</groupId>
 	<artifactId>web</artifactId>
-	<version>7.3.28</version>
+	<version>7.3.28-jahia1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>OPS4J Pax Web</name>
@@ -43,11 +43,11 @@
 	</issueManagement>
 
 	<scm>
-		<connection>scm:git:https://github.com/ops4j/org.ops4j.pax.web.git</connection>
-		<developerConnection>scm:git:https://github.com/ops4j/org.ops4j.pax.web.git</developerConnection>
-		<url>https://github.com/ops4j/org.ops4j.pax.web/tree/pax-web-7.3.x</url>
-	  <tag>web-7.3.28</tag>
-  </scm>
+		<connection>scm:git:git@github.com:Jahia/org.ops4j.pax.web.git</connection>
+		<developerConnection>scm:git:git@github.com:Jahia/org.ops4j.pax.web.git</developerConnection>
+		<url>http://github.com/Jahia/org.ops4j.pax.web</url>
+		<tag>pax-web-7.3.28-jahia</tag>
+	</scm>
 
 	<developers>
 		<developer>
@@ -181,6 +181,19 @@
 		<sonar.jacoco.itReportPath>${project.basedir}/target/jacoco-it.exec</sonar.jacoco.itReportPath>
 		<sonar.language>java</sonar.language>
 	</properties>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>thirdparty-snapshots</id>
+			<name>Sonatype OSS Snapshots</name>
+			<url>https://devtools.jahia.com/nexus/content/repositories/thirdparty-snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>thirdparty-releases</id>
+			<name>Sonatype OSS Staging Repository</name>
+			<url>https://devtools.jahia.com/nexus/content/repositories/thirdparty-releases</url>
+		</repository>
+	</distributionManagement>
 
 	<build>
 		<plugins>
@@ -1132,67 +1145,67 @@
 	</pluginRepositories>
 
 	<modules>
-		<module>pax-web-api</module>
-		<module>pax-web-spi</module>
-		<module>pax-web-runtime</module>
+<!--		<module>pax-web-api</module>-->
+<!--		<module>pax-web-spi</module>-->
+<!--		<module>pax-web-runtime</module>-->
 		<module>pax-web-jsp</module>
-		<module>pax-web-extender-war</module>
-		<module>pax-web-extender-whiteboard</module>
-		<module>pax-web-deployer</module>
-		<module>pax-web-features</module>
-		<module>pax-web-archetypes</module>
-		<module>samples</module>
-		<module>pax-web-itest</module>
-		<module>pax-web-manual</module>
-		<module>pax-web-jaas</module>
-		<module>pax-web-descriptor</module>
-		<module>pax-web-resources</module>
+<!--		<module>pax-web-extender-war</module>-->
+<!--		<module>pax-web-extender-whiteboard</module>-->
+<!--		<module>pax-web-deployer</module>-->
+<!--		<module>pax-web-features</module>-->
+<!--		<module>pax-web-archetypes</module>-->
+<!--		<module>samples</module>-->
+<!--		<module>pax-web-itest</module>-->
+<!--		<module>pax-web-manual</module>-->
+<!--		<module>pax-web-jaas</module>-->
+<!--		<module>pax-web-descriptor</module>-->
+<!--		<module>pax-web-resources</module>-->
 	</modules>
 
 	<profiles>
-		<profile>
-			<!--
-				activeByDefault doesn't work when there are other profiles activated - like doclint-java8-disable
-				so please use -Prelease during release
-			-->
-			<id>release</id>
-			<modules>
-				<module>pax-web-jetty</module>
-				<module>pax-web-jetty-bundle</module>
-				<module>pax-web-tomcat</module>
-				<module>pax-web-tomcat-bundle</module>
-				<module>pax-web-undertow</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>tomcat</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<modules>
-				<module>pax-web-tomcat</module>
-				<module>pax-web-tomcat-bundle</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>jetty</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<modules>
-				<module>pax-web-jetty</module>
-				<module>pax-web-jetty-bundle</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>undertow</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<modules>
-				<module>pax-web-undertow</module>
-			</modules>
-		</profile>
+<!--		<profile>-->
+<!--			&lt;!&ndash;-->
+<!--				activeByDefault doesn't work when there are other profiles activated - like doclint-java8-disable-->
+<!--				so please use -Prelease during release-->
+<!--			&ndash;&gt;-->
+<!--			<id>release</id>-->
+<!--			<modules>-->
+<!--				<module>pax-web-jetty</module>-->
+<!--				<module>pax-web-jetty-bundle</module>-->
+<!--				<module>pax-web-tomcat</module>-->
+<!--				<module>pax-web-tomcat-bundle</module>-->
+<!--				<module>pax-web-undertow</module>-->
+<!--			</modules>-->
+<!--		</profile>-->
+<!--		<profile>-->
+<!--			<id>tomcat</id>-->
+<!--			<activation>-->
+<!--				<activeByDefault>true</activeByDefault>-->
+<!--			</activation>-->
+<!--			<modules>-->
+<!--				<module>pax-web-tomcat</module>-->
+<!--				<module>pax-web-tomcat-bundle</module>-->
+<!--			</modules>-->
+<!--		</profile>-->
+<!--		<profile>-->
+<!--			<id>jetty</id>-->
+<!--			<activation>-->
+<!--				<activeByDefault>true</activeByDefault>-->
+<!--			</activation>-->
+<!--			<modules>-->
+<!--				<module>pax-web-jetty</module>-->
+<!--				<module>pax-web-jetty-bundle</module>-->
+<!--			</modules>-->
+<!--		</profile>-->
+<!--		<profile>-->
+<!--			<id>undertow</id>-->
+<!--			<activation>-->
+<!--				<activeByDefault>true</activeByDefault>-->
+<!--			</activation>-->
+<!--			<modules>-->
+<!--				<module>pax-web-undertow</module>-->
+<!--			</modules>-->
+<!--		</profile>-->
 		<profile>
 			<id>doclint-java8-disable</id>
 			<activation>
@@ -1231,6 +1244,8 @@
                                 <exclude>**/.circleci/**/*</exclude>
                                 <!-- GIT files -->
                                 <exclude>**/.git/**/*</exclude>
+								<!-- Github files-->
+								<exclude>**/.github/**/*</exclude>
                                 <!-- IDEA files -->
                                 <exclude>**/.idea/**/*</exclude>
                                 <exclude>**/*.iml</exclude>
@@ -1297,6 +1312,9 @@
                                 <exclude>**/*.req</exclude>
                                 <exclude>**/*.cer</exclude>
                                 <exclude>**/*.srl</exclude>
+								<!-- Exclude release files -->
+								<exclude>**/*.xml.releaseBackup</exclude>
+								<exclude>**/release.properties</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
