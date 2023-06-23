@@ -30,6 +30,7 @@
 	<artifactId>pax-web-jsp</artifactId>
 	<packaging>bundle</packaging>
 
+	<version>7.3.7-jahia1-SNAPSHOT</version>
 	<name>OPS4J Pax Web - Jsp Support</name>
 	<description>
     Pax Web Jsp Support via Tomcat Jasper 2.
@@ -40,6 +41,7 @@
 		<bundle.symbolicName>org.ops4j.pax.web.pax-web-jsp</bundle.symbolicName>
 		<bundle.namespace>org.ops4j.pax.web.jsp</bundle.namespace>
 		<sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
+		<pax-web.osgi.version>7.3.7</pax-web.osgi.version>
 	</properties>
 
 	<build>
@@ -54,6 +56,8 @@
 					<exclude>org/apache/jasper/compiler/JspConfig.java</exclude>
 					<exclude>org/apache/jasper/JspCompilationContext.java</exclude>
 					<exclude>org/apache/tomcat/util/descriptor/tagplugin/TagPluginParser.java</exclude>
+					<exclude>org/apache/taglibs/standard/tag/rt/core/SetTag.java</exclude>
+					<exclude>org/apache/taglibs/standard/tag/rt/core/ForEachTag.java</exclude>
 				</excludes>
 			</resource>
 		</resources>
@@ -228,7 +232,9 @@
 							{maven-resources},
 							org/apache/jasper/compiler/TldCache.class=target/classes/org/apache/jasper/compiler/TldCache.class,
 							org/apache/jasper/JspCompilationContext.class=target/classes/org/apache/jasper/JspCompilationContext.class,
-							org/apache/tomcat/util/descriptor/tagplugin/TagPluginParser.class=target/classes/org/apache/tomcat/util/descriptor/tagplugin/TagPluginParser.class
+							org/apache/tomcat/util/descriptor/tagplugin/TagPluginParser.class=target/classes/org/apache/tomcat/util/descriptor/tagplugin/TagPluginParser.class,
+							org/apache/taglibs/standard/tag/rt/core/SetTag.class=target/classes/org/apache/taglibs/standard/tag/rt/core/SetTag.class,
+							org/apache/taglibs/standard/tag/rt/core/ForEachTag.class=target/classes/org/apache/taglibs/standard/tag/rt/core/ForEachTag.class
 						</Include-Resource>
 						<Embed-Dependency>*; scope=compile; type=!pom;
 							inline=**/*.class|**/*.ico|**/*.dtd|**/*.xml|**/*.properties|**/*.map|**/*.default|**/*.providers|**/*.tld|**/*.rsc</Embed-Dependency>
@@ -277,11 +283,13 @@
 		<dependency>
 			<groupId>org.ops4j.pax.web</groupId>
 			<artifactId>pax-web-api</artifactId>
+			<version>${pax-web.osgi.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.ops4j.pax.web</groupId>
 			<artifactId>pax-web-spi</artifactId>
+			<version>${pax-web.osgi.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
