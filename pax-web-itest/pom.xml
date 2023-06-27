@@ -556,9 +556,6 @@
 		</profile>
 		<profile>
 			<id>karaf-test</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<modules>
 				<module>pax-web-itest-karaf</module>
 			</modules>
