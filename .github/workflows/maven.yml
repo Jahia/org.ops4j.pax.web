@@ -19,7 +19,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Maven
-      run: mvn -B deploy -DskipTests --file pom.xml
+      run: mvn -pl pax-web-jsp -Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true deploy
   build:
     runs-on: ubuntu-latest
     needs: compile
