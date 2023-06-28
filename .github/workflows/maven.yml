@@ -8,6 +8,11 @@ jobs:
     name: Compile
     steps:
     - uses: actions/checkout@v1
+    - name: Set environment variables from parameters
+        shell: bash
+        run: |
+          echo "NEXUS_USERNAME=${{ secrets.NEXUS_USERNAME }}" >> $GITHUB_ENV
+          echo "NEXUS_PASSWORD=${{ secrets.NEXUS_PASSWORD }}" >> $GITHUB_ENV
     - uses: actions/cache@v1
       with:
         path: ~/.m2/repository
