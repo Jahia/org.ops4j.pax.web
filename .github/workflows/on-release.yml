@@ -42,5 +42,5 @@ jobs:
           NEXT_REVISION=`expr $REVISION + 1`
           NEXT_DEVELOPMENT_VERSION="$MAJOR_VERSION.$MINOR_VERSION.$NEXT_REVISION"-SNAPSHOT
           fi
-          mvn -B -s .github/maven.settings.xml -DdryRun=true -pl pax-web-jsp --also-make -Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true -Dtag=$TAG_VERSION -DreleaseVersion=$FINAL_RELEASE_VERSION -DdevelopmentVersion="$NEXT_DEVELOPMENT_VERSION" -DscmCommentPrefix="[skip ci] [maven-release-plugin]" release:prepare 
-          mvn -B -s .github/maven.settings.xml -DdryRun=true -pl pax-web-jsp --also-make -Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true  -Darguments="-pl pax-web-jsp --also-make -Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true" release:perform
+          mvn -B -s .github/maven.settings.xml -DdryRun=true -Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true -Dtag=$TAG_VERSION -DreleaseVersion=$FINAL_RELEASE_VERSION -DdevelopmentVersion="$NEXT_DEVELOPMENT_VERSION" -DscmCommentPrefix="[skip ci] [maven-release-plugin]" -Darguments="-Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true" release:prepare 
+          mvn -B -s .github/maven.settings.xml -DdryRun=true -Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true  -Darguments="-Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true" release:perform
