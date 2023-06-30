@@ -1246,6 +1246,8 @@
                                 <exclude>**/.circleci/**/*</exclude>
                                 <!-- GIT files -->
                                 <exclude>**/.git/**/*</exclude>
+								<!-- Github files-->
+								<exclude>**/.github/**/*</exclude>
                                 <!-- IDEA files -->
                                 <exclude>**/.idea/**/*</exclude>
                                 <exclude>**/*.iml</exclude>
@@ -1312,6 +1314,9 @@
                                 <exclude>**/*.req</exclude>
                                 <exclude>**/*.cer</exclude>
                                 <exclude>**/*.srl</exclude>
+								<!-- Exclude release files -->
+								<exclude>**/*.xml.releaseBackup</exclude>
+								<exclude>**/release.properties</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
