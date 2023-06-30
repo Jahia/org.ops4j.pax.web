@@ -28,6 +28,7 @@ jobs:
         run: |
           git config user.email 'jahia-ci@jahia.com'
           git config user.name 'Jahia CI'
+          git fetch --all
           git tag --delete ${{ inputs.release_version }}
           git push origin :refs/tags/${{ inputs.release_version }}
 
