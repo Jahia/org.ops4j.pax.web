@@ -17,7 +17,11 @@ jobs:
         run: |
           echo "NEXUS_USERNAME=${{ secrets.NEXUS_USERNAME }}" >> $GITHUB_ENV
           echo "NEXUS_PASSWORD=${{ secrets.NEXUS_PASSWORD }}" >> $GITHUB_ENV
-
+      # Setting up the SSH agent to be able to commit back to the repository
+      # https://github.com/webfactory/ssh-agent
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.GH_SSH_PRIVATE_KEY_JAHIACI }}
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
