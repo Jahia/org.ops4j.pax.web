@@ -41,7 +41,6 @@
 		<bundle.symbolicName>org.ops4j.pax.web.pax-web-jsp</bundle.symbolicName>
 		<bundle.namespace>org.ops4j.pax.web.jsp</bundle.namespace>
 		<sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
-		<pax-web.osgi.version>7.3.7</pax-web.osgi.version>
 	</properties>
 
 	<build>
@@ -283,13 +282,13 @@
 		<dependency>
 			<groupId>org.ops4j.pax.web</groupId>
 			<artifactId>pax-web-api</artifactId>
-			<version>${pax-web.osgi.version}</version>
+			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.ops4j.pax.web</groupId>
 			<artifactId>pax-web-spi</artifactId>
-			<version>${pax-web.osgi.version}</version>
+			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
