@@ -23,14 +23,14 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.GH_SSH_PRIVATE_KEY_JAHIACI }}
 
-      - name: Delete github tag ${{ inputs.release_version }}
+      - name: Delete github tag ${{ github.event.release.tag_name }}
         shell: bash
         run: |
           git config user.email 'jahia-ci@jahia.com'
           git config user.name 'Jahia CI'
           git fetch --all
-          git tag --delete ${{ inputs.release_version }}
-          git push origin :refs/tags/${{ inputs.release_version }}
+          git tag --delete ${{ github.event.release.tag_name }}
+          git push origin :refs/tags/${{ github.event.release.tag_name }}
 
       - uses: actions/cache@v1
         with:
@@ -44,17 +44,12 @@ jobs:
           java-version: 1.8
       - name: Release with Maven
         run: |
-          TAG_VERSION=$(echo ${{ inputs.release_version }})
-          FINAL_RELEASE_VERSION=$(echo ${{ inputs.release_version }} | tr '_' '.' | cut -d'-' -f 1)
+          TAG_VERSION=$(echo ${{ github.event.release.tag_name }})
+          FINAL_RELEASE_VERSION=$(echo ${{ github.event.release.tag_name }} | tr '_' '.' | cut -d'-' -f 1)
           MAJOR_VERSION=`echo $FINAL_RELEASE_VERSION | cut -d. -f1`
           MINOR_VERSION=`echo $FINAL_RELEASE_VERSION | cut -d. -f2`
           REVISION=`echo $FINAL_RELEASE_VERSION | cut -d. -f3`
-          if [[ "${{ inputs.primary_release_branch }}" == "master"  || "${{ inputs.primary_release_branch }}" == "main"  ||  "${{ inputs.primary_release_branch }}" =~ ^[0-9]_x$ ]]; then
-          NEXT_MINOR_VERSION=`expr $MINOR_VERSION + 1`
-          NEXT_DEVELOPMENT_VERSION="$MAJOR_VERSION.$NEXT_MINOR_VERSION.0"-SNAPSHOT
-          else
           NEXT_REVISION=`expr $REVISION + 1`
           NEXT_DEVELOPMENT_VERSION="$MAJOR_VERSION.$MINOR_VERSION.$NEXT_REVISION"-SNAPSHOT
-          fi
           mvn -B -s .github/maven.settings.xml -DdryRun=false -Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true -Dtag=$TAG_VERSION -DreleaseVersion=$FINAL_RELEASE_VERSION -DdevelopmentVersion="$NEXT_DEVELOPMENT_VERSION" -DscmCommentPrefix="[skip ci] [maven-release-plugin]" -Darguments="-Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true" release:prepare 
           mvn -B -s .github/maven.settings.xml -DdryRun=false -Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true  -Darguments="-Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true" release:perform
