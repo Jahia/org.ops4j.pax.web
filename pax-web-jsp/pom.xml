@@ -23,7 +23,7 @@
 		<relativePath>../pom.xml</relativePath>
 		<groupId>org.ops4j.pax</groupId>
 		<artifactId>web</artifactId>
-		<version>7.3.7-jahia2-SNAPSHOT</version>
+		<version>7.3.7</version>
 	</parent>
 
 	<groupId>org.ops4j.pax.web</groupId>
@@ -68,7 +68,7 @@
 					<instructions>
 						<Bundle-SymbolicName>${bundle.symbolicName}</Bundle-SymbolicName>
 						<Import-Package>
-							org.ops4j.pax.web.service.spi.util; version="${pax-web.osgi.version}",
+							org.ops4j.pax.web.service.spi.util; version="7.3.7",
 							${bundle.namespace}; version="${pax-web.osgi.version}",
 							javax.servlet; version="[3.1,5)",
 							javax.servlet.http; version="[3.1,5)",
@@ -282,13 +282,13 @@
 		<dependency>
 			<groupId>org.ops4j.pax.web</groupId>
 			<artifactId>pax-web-api</artifactId>
-			<version>${project.version}</version>
+			<version>7.3.7</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.ops4j.pax.web</groupId>
 			<artifactId>pax-web-spi</artifactId>
-			<version>${project.version}</version>
+			<version>7.3.7</version>
 			<scope>provided</scope>
 		</dependency>
 

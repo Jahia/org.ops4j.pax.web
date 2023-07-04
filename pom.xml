@@ -1147,8 +1147,8 @@
 	</pluginRepositories>
 
 	<modules>
-		<module>pax-web-api</module>
-		<module>pax-web-spi</module>
+<!--		<module>pax-web-api</module>-->
+<!--		<module>pax-web-spi</module>-->
 <!--		<module>pax-web-runtime</module>-->
 		<module>pax-web-jsp</module>
 <!--		<module>pax-web-extender-war</module>-->
