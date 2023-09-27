@@ -23,14 +23,14 @@
 		<relativePath>../pom.xml</relativePath>
 		<groupId>org.ops4j.pax</groupId>
 		<artifactId>web</artifactId>
-		<version>7.3.29</version>
+		<version>7.3.28-jahia1-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.ops4j.pax.web</groupId>
 	<artifactId>pax-web-jsp</artifactId>
 	<packaging>bundle</packaging>
 
-	<version>7.3.7-jahia1-SNAPSHOT</version>
+	<version>7.3.28-jahia1-SNAPSHOT</version>
 	<name>OPS4J Pax Web - Jsp Support</name>
 	<description>
     Pax Web Jsp Support via Tomcat Jasper 2.
@@ -41,7 +41,6 @@
 		<bundle.symbolicName>org.ops4j.pax.web.pax-web-jsp</bundle.symbolicName>
 		<bundle.namespace>org.ops4j.pax.web.jsp</bundle.namespace>
 		<sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
-		<pax-web.osgi.version>7.3.7</pax-web.osgi.version>
 	</properties>
 
 	<build>
@@ -69,7 +68,7 @@
 					<instructions>
 						<Bundle-SymbolicName>${bundle.symbolicName}</Bundle-SymbolicName>
 						<Import-Package>
-							org.ops4j.pax.web.service.spi.util; version="${pax-web.osgi.version}",
+							org.ops4j.pax.web.service.spi.util; version="7.3.28",
 							${bundle.namespace}; version="${pax-web.osgi.version}",
 							javax.servlet; version="[3.1,5)",
 							javax.servlet.http; version="[3.1,5)",
@@ -284,13 +283,13 @@
 		<dependency>
 			<groupId>org.ops4j.pax.web</groupId>
 			<artifactId>pax-web-api</artifactId>
-			<version>${pax-web.osgi.version}</version>
+			<version>7.3.28</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.ops4j.pax.web</groupId>
 			<artifactId>pax-web-spi</artifactId>
-			<version>${pax-web.osgi.version}</version>
+			<version>7.3.28</version>
 			<scope>provided</scope>
 		</dependency>
 
