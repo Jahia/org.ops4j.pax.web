@@ -185,12 +185,12 @@
 	<distributionManagement>
 		<snapshotRepository>
 			<id>thirdparty-snapshots</id>
-			<name>Sonatype OSS Snapshots</name>
+			<name>Jahia Third-party Snapshots</name>
 			<url>https://devtools.jahia.com/nexus/content/repositories/thirdparty-snapshots</url>
 		</snapshotRepository>
 		<repository>
 			<id>thirdparty-releases</id>
-			<name>Sonatype OSS Staging Repository</name>
+			<name>Jahia Third-party Releases</name>
 			<url>https://devtools.jahia.com/nexus/content/repositories/thirdparty-releases</url>
 		</repository>
 	</distributionManagement>
