@@ -710,12 +710,13 @@ public class JspCompilationContext {
         // Append servlet or tag handler path to scratch dir
         try {
             File base = options.getScratchDir();
-            baseUrl = base.toURI().toURL();
             outputDir = base.getAbsolutePath() + File.separator + path +
                     File.separator;
             if (!makeOutputDir()) {
                 throw new IllegalStateException(Localizer.getMessage("jsp.error.outputfolder"));
             }
+            // Ensure we managed to create the whole directory structure before transforming the path to a URL, otherwise the URL will not contain the trailing "/" which is mandatory for URLClassLoader/URLClassPath to use a FileLoader instead of JARLoader
+            baseUrl = base.toURI().toURL();
         } catch (MalformedURLException e) {
             throw new IllegalStateException(Localizer.getMessage("jsp.error.outputfolder"), e);
         }
