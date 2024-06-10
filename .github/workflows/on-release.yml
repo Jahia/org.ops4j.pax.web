@@ -12,6 +12,8 @@ jobs:
     name: Compile
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: pax-web-7.3.7-jahia
       - name: Set environment variables from parameters
         shell: bash
         run: |
