@@ -11,7 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Compile
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
+        with:
+          ref: pax-web-7.3.29-jahia
       - name: Set environment variables from parameters
         shell: bash
         run: |
@@ -44,12 +46,15 @@ jobs:
           java-version: 1.8
       - name: Release with Maven
         run: |
-          TAG_VERSION=$(echo ${{ github.event.release.tag_name }})
-          FINAL_RELEASE_VERSION=$(echo ${{ github.event.release.tag_name }} | tr '_' '.' | cut -d'-' -f 1)
-          MAJOR_VERSION=`echo $FINAL_RELEASE_VERSION | cut -d. -f1`
-          MINOR_VERSION=`echo $FINAL_RELEASE_VERSION | cut -d. -f2`
-          REVISION=`echo $FINAL_RELEASE_VERSION | cut -d. -f3`
-          NEXT_REVISION=`expr $REVISION + 1`
-          NEXT_DEVELOPMENT_VERSION="$MAJOR_VERSION.$MINOR_VERSION.$NEXT_REVISION"-SNAPSHOT
-          mvn -B -s .github/maven.settings.xml -DdryRun=false -Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true -Dtag=$TAG_VERSION -DreleaseVersion=$FINAL_RELEASE_VERSION -DdevelopmentVersion="$NEXT_DEVELOPMENT_VERSION" -DscmCommentPrefix="[skip ci] [maven-release-plugin]" -Darguments="-Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true" release:prepare 
-          mvn -B -s .github/maven.settings.xml -DdryRun=false -Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true  -Darguments="-Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true" release:perform
+          if [[ ${{ github.event.release.tag_name }} == web* ]] ;
+          then
+            TAG_VERSION=$(echo "${{ github.event.release.tag_name }}") # e.g. web-7.3.29-jahia2
+            FINAL_RELEASE_VERSION=$(echo "$TAG_VERSION" | tr '_' '.' | cut -d'-' -f2-3)
+            REVISION=$(echo $FINAL_RELEASE_VERSION | tr -d 'jahia' | cut -d'-' -f2)
+            NEXT_REVISION=$(expr $REVISION + 1)
+            NEXT_DEVELOPMENT_VERSION="$(echo $FINAL_RELEASE_VERSION | cut -d'-' -f1)-jahia${NEXT_REVISION}"-SNAPSHOT # e.g. 7.3.29-jahia3-SNAPSHOT
+            mvn -B -s .github/maven.settings.xml -DdryRun=false -Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true -Dmaven.javadoc.skip=true -Dgpg.skip=true -Dtag=$TAG_VERSION -DreleaseVersion=$FINAL_RELEASE_VERSION -DdevelopmentVersion="$NEXT_DEVELOPMENT_VERSION" -DscmCommentPrefix="[skip ci] [maven-release-plugin]" -Darguments="-Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true -Dmaven.javadoc.skip=true -Dgpg.skip=true" release:prepare
+            mvn -B -s .github/maven.settings.xml -DdryRun=false -Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true -Dmaven.javadoc.skip=true -Dgpg.skip=true -Darguments="-Dcheckstyle.skip=true -DskipLocalStaging=true -Dfindbugs.skip=true -Dmaven.javadoc.skip=true -Dgpg.skip=true" release:perform
+          else
+            exit 1;
+          fi
