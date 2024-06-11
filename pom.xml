@@ -27,7 +27,7 @@
 
 	<groupId>org.ops4j.pax</groupId>
 	<artifactId>web</artifactId>
-	<version>web-7.3.7-jahia4-SNAPSHOT</version>
+	<version>web-7.3.7-jahia3</version>
 	<packaging>pom</packaging>
 
 	<name>OPS4J Pax Web</name>
@@ -46,7 +46,7 @@
 		<connection>scm:git:git@github.com:Jahia/org.ops4j.pax.web.git</connection>
 		<developerConnection>scm:git:git@github.com:Jahia/org.ops4j.pax.web.git</developerConnection>
 		<url>http://github.com/Jahia/org.ops4j.pax.web</url>
-	  <tag>HEAD</tag>
+	  <tag>web-7.3.7-jahia3</tag>
   </scm>
 
 	<developers>
