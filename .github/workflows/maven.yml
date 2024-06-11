@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Compile
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
     - name: Set environment variables from parameters
       shell: bash
       run: |
@@ -34,7 +34,7 @@ jobs:
       matrix:
         profile: [tomcat, jetty, undertow]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
     - uses: actions/cache@v1
       with:
         path: ~/.m2/repository
