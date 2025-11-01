@@ -165,6 +165,7 @@
 							org.apache.taglibs.standard.tag.rt.xml,
 							org.apache.taglibs.standard.tei,
 							org.apache.taglibs.standard.tlv,
+							org.apache.taglibs.standard.util,
 							org.apache.tomcat,
 							org.apache.tomcat.util,
 							org.apache.tomcat.util.scan,
@@ -224,6 +225,7 @@
 							org.apache.taglibs.standard.tag.rt.xml;-noimport:=true,
 							org.apache.taglibs.standard.tei;-noimport:=true,
 							org.apache.taglibs.standard.tlv;-noimport:=true,
+							org.apache.taglibs.standard.util;-noimport:=true,
                             !org.apache.tomcat,
 							org.apache.tomcat.util.descriptor.tld;-noimport:=true
 						</Export-Package>
