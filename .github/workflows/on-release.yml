@@ -34,7 +34,7 @@ jobs:
           git tag --delete ${{ github.event.release.tag_name }}
           git push origin :refs/tags/${{ github.event.release.tag_name }}
 
-      - uses: actions/cache@v1
+      - uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
