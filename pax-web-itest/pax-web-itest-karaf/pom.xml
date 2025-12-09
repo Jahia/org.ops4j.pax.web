@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>org.ops4j.pax.web</groupId>
 		<artifactId>pax-web-itest</artifactId>
-		<version>9.0.10-SNAPSHOT</version>
+		<version>9.0.21-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -40,7 +40,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<!-- explicit version due to httpTomcatServerWrappers://issues.apache.org/jira/browse/SUREFIRE-1374 -->
+				<!-- explicit version due to https://issues.apache.org/jira/browse/SUREFIRE-1374 -->
 				<version>2.19.1</version>
 				<configuration>
 					<includes>
@@ -59,6 +59,8 @@
 						<commons-fileupload.version>${dependency.commons-fileupload}</commons-fileupload.version>
 						<commons-io.version>${dependency.commons-io}</commons-io.version>
 						<felix-webconsole.version>${dependency.org.apache.felix.webconsole}</felix-webconsole.version>
+						<org.apache.felix.inventory.version>${dependency.org.apache.felix.inventory}</org.apache.felix.inventory.version>
+						<owasp-encoder.version>${dependency.org.owasp.encoder}</owasp-encoder.version>
 					</systemPropertyVariables>
 					<forkCount>1</forkCount>
 					<reuseForks>false</reuseForks>
@@ -342,7 +344,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.karaf.features</groupId>
-			<artifactId>spring</artifactId>
+			<artifactId>spring-legacy</artifactId>
 			<type>xml</type>
 			<classifier>features</classifier>
 			<scope>test</scope>

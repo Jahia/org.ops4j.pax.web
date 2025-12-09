@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 OPS4J.
+ * Copyright 2021 OPS4J.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ops4j.pax.web.itest.jetty.httpservice;
+package org.ops4j.pax.web.itest.undertow.war;
 
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.Configuration;
 import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.junit.PaxExam;
-import org.ops4j.pax.web.itest.container.httpservice.AbstractWebConsoleIntegrationTest;
+import org.ops4j.pax.web.itest.container.war.AbstractFilterMappingIntegrationTest;
 
 import static org.ops4j.pax.exam.OptionUtils.combine;
 
 @RunWith(PaxExam.class)
-public class WebConsoleIntegrationTest extends AbstractWebConsoleIntegrationTest {
+public class FilterMappingIntegrationTest extends AbstractFilterMappingIntegrationTest {
 
 	@Configuration
 	public Option[] configure() {
-		return combine(baseConfigure(), combine(configAdmin(), paxWebJetty()));
+		Option[] serverOptions = combine(baseConfigure(), paxWebUndertow());
+		Option[] jspOptions = combine(serverOptions, paxWebJsp());
+		return combine(jspOptions, paxWebExtenderWar());
 	}
 
 }

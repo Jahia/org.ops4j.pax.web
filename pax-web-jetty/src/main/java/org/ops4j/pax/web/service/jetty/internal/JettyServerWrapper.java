@@ -606,7 +606,7 @@ class JettyServerWrapper implements BatchVisitor {
 		writer.setTimeZone(lc.getLogNCSATimeZone());
 
 		CustomRequestLog requestLog = new CustomRequestLog(writer,
-				lc.isLogNCSAExtended() ? CustomRequestLog.NCSA_FORMAT : CustomRequestLog.EXTENDED_NCSA_FORMAT);
+				lc.isLogNCSAExtended() ? CustomRequestLog.EXTENDED_NCSA_FORMAT : CustomRequestLog.NCSA_FORMAT);
 
 		// original approach from PAXWEB-269 - http://wiki.eclipse.org/Jetty/Howto/Configure_Request_Logs:
 //		server.getRootHandlerCollection().addHandler(requestLogHandler);
@@ -802,7 +802,7 @@ class JettyServerWrapper implements BatchVisitor {
 			SessionHandler sessions = sch.getSessionHandler();
 			if (sessions != null) {
 				SessionConfiguration sc = configuration.session();
-				sessions.setMaxInactiveInterval(sc.getSessionTimeout());
+				sessions.setMaxInactiveInterval(sc.getSessionTimeout() * 60);
 				sessions.setSessionCookie(defaultSessionCookieConfig.getName());
 				sessions.getSessionCookieConfig().setDomain(defaultSessionCookieConfig.getDomain());
 				// will default to context path if null
@@ -1286,8 +1286,7 @@ class JettyServerWrapper implements BatchVisitor {
 
 		((PaxWebServletHandler) sch.getServletHandler()).removeServletWithMapping(model);
 
-		LOG.info("Removing servlet {}", model);
-		LOG.debug("Removing servlet {} from context {}", model.getName(), contextPath);
+		LOG.info("Removing servlet {} from context {}", model, contextPath);
 
 		// are there any error page declarations in the model?
 		ErrorPageModel epm = model.getErrorPageModel();
@@ -1507,7 +1506,7 @@ class JettyServerWrapper implements BatchVisitor {
 				// when targeting /s1 servlet
 
 				// if there's out-of-band list of new filters, there's no way the change will be "quick"
-				noQuick |= filtersMap.get(model) != null;
+				noQuick |= change.useWebOrder() || filtersMap.get(model) != null;
 
 				// we need highest ranked OsgiContextModel for current context path - chosen not among all
 				// associated OsgiContextModels, but among OsgiContextModels of the FilterModel
@@ -1610,7 +1609,20 @@ class JettyServerWrapper implements BatchVisitor {
 				}
 				newFilterMappingsListBefore.addAll(newFilterMappingsListAfter);
 				sch.getServletHandler().setFilters(newFilterHolders);
-				sch.getServletHandler().setFilterMappings(newFilterMappingsListBefore.toArray(new PaxWebFilterMapping[0]));
+
+				if (!change.useWebOrder()) {
+					sch.getServletHandler().setFilterMappings(newFilterMappingsListBefore.toArray(new PaxWebFilterMapping[0]));
+				}
+			}
+
+			if (change.useWebOrder()) {
+				// add the mappings now using web.xml order
+				Map<Integer, PaxWebFilterMapping> webOrderMapping = new TreeMap<>();
+				for (PaxWebFilterMapping mapping : newFilterMappingsListBefore) {
+					webOrderMapping.put(mapping.getOrder(), mapping);
+				}
+
+				sch.getServletHandler().setFilterMappings(webOrderMapping.values().toArray(new PaxWebFilterMapping[0]));
 			}
 
 			if (!change.isDynamic()) {
@@ -1697,6 +1709,7 @@ class JettyServerWrapper implements BatchVisitor {
 
 					if (pendingTransaction(contextPath)) {
 						LOG.debug("Delaying removal of event listener {}", eventListenerModel);
+						delayedRemovals.get(contextPath).add(eventListenerModel);
 						return;
 					}
 
@@ -2217,6 +2230,9 @@ class JettyServerWrapper implements BatchVisitor {
 					sessionHandler.setMaxInactiveInterval(sessionConfig.getSessionTimeout() * 60);
 				}
 				SessionCookieConfig scc = sessionConfig.getSessionCookieConfig();
+				if (scc == null) {
+					scc = configuration.session().getDefaultSessionCookieConfig();
+				}
 				if (scc != null) {
 					if (scc.getName() != null) {
 						sessionHandler.setSessionCookie(scc.getName());

@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>org.ops4j.pax.web</groupId>
 		<artifactId>pax-web-fragments</artifactId>
-		<version>9.0.10-SNAPSHOT</version>
+		<version>9.0.21-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -41,7 +41,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Fragment-Host>jakarta.servlet-api</Fragment-Host>
+						<Fragment-Host>jakarta.servlet-api;bundle-version="[4,5)"</Fragment-Host>
 						<Export-Package>
 							javax.servlet;version="3.1.0";uses:="javax.servlet.annotation,javax.servlet.descriptor",
 							javax.servlet;version="2.6";uses:="javax.servlet.annotation,javax.servlet.descriptor",

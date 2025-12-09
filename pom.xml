@@ -28,7 +28,7 @@
 
 	<groupId>org.ops4j.pax</groupId>
 	<artifactId>web</artifactId>
-	<version>9.0.10-SNAPSHOT</version>
+	<version>9.0.21-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>OPS4J Pax Web</name>
@@ -38,8 +38,8 @@
 	<url>https://ops4j1.jira.com/wiki/spaces/PAXWEB/overview</url>
 
 	<issueManagement>
-		<system>jira</system>
-		<url>https://ops4j1.jira.com/projects/PAXWEB/summary/statistics</url>
+		<system>GitHub</system>
+		<url>https://github.com/ops4j/org.ops4j.pax.web/issues</url>
 	</issueManagement>
 
 	<scm>
@@ -122,66 +122,66 @@
 
 		<!-- Maven plugins from org.apache.maven.plugins (and their dependencies) -->
 		<plugin.maven-antrun-plugin>3.1.0</plugin.maven-antrun-plugin>
-		<plugin.maven-archetype-plugin>3.2.1</plugin.maven-archetype-plugin>
-		<plugin.maven-assembly-plugin>3.6.0</plugin.maven-assembly-plugin>
-		<plugin.maven-checkstyle-plugin>3.3.0</plugin.maven-checkstyle-plugin>
-		<plugin.dependency.com.puppycrawl.tools.checkstyle>10.6.0</plugin.dependency.com.puppycrawl.tools.checkstyle>
-		<plugin.maven-clean-plugin>3.3.1</plugin.maven-clean-plugin>
-		<plugin.maven-compiler-plugin>3.11.0</plugin.maven-compiler-plugin>
-		<plugin.maven-dependency-plugin>3.6.0</plugin.maven-dependency-plugin>
-		<plugin.maven-deploy-plugin>3.1.1</plugin.maven-deploy-plugin>
-		<plugin.maven-enforcer-plugin>3.3.0</plugin.maven-enforcer-plugin>
+		<plugin.maven-archetype-plugin>3.3.1</plugin.maven-archetype-plugin>
+		<plugin.maven-assembly-plugin>3.7.1</plugin.maven-assembly-plugin>
+		<plugin.maven-checkstyle-plugin>3.6.0</plugin.maven-checkstyle-plugin>
+		<plugin.dependency.com.puppycrawl.tools.checkstyle>10.21.2</plugin.dependency.com.puppycrawl.tools.checkstyle>
+		<plugin.maven-clean-plugin>3.4.0</plugin.maven-clean-plugin>
+		<plugin.maven-compiler-plugin>3.13.0</plugin.maven-compiler-plugin>
+		<plugin.maven-dependency-plugin>3.8.1</plugin.maven-dependency-plugin>
+		<plugin.maven-deploy-plugin>3.1.3</plugin.maven-deploy-plugin>
+		<plugin.maven-enforcer-plugin>3.5.0</plugin.maven-enforcer-plugin>
 		<plugin.dependency.org.commonjava.maven.enforcer>1.3</plugin.dependency.org.commonjava.maven.enforcer>
-		<plugin.maven-failsafe-plugin>3.1.2</plugin.maven-failsafe-plugin>
-		<plugin.maven-gpg-plugin>3.1.0</plugin.maven-gpg-plugin>
-		<plugin.maven-install-plugin>3.1.1</plugin.maven-install-plugin>
-		<plugin.maven-jar-plugin>3.3.0</plugin.maven-jar-plugin>
-		<plugin.maven-javadoc-plugin>3.5.0</plugin.maven-javadoc-plugin>
-		<plugin.maven-release-plugin>2.5.3</plugin.maven-release-plugin>
-		<plugin.maven-remote-resources-plugin>3.0.0</plugin.maven-remote-resources-plugin>
+		<plugin.maven-failsafe-plugin>3.5.2</plugin.maven-failsafe-plugin>
+		<plugin.maven-gpg-plugin>3.2.7</plugin.maven-gpg-plugin>
+		<plugin.maven-install-plugin>3.1.3</plugin.maven-install-plugin>
+		<plugin.maven-jar-plugin>3.4.2</plugin.maven-jar-plugin>
+		<plugin.maven-javadoc-plugin>3.11.2</plugin.maven-javadoc-plugin>
+		<plugin.maven-release-plugin>3.1.1</plugin.maven-release-plugin>
+		<plugin.maven-remote-resources-plugin>3.3.0</plugin.maven-remote-resources-plugin>
 		<plugin.maven-resources-plugin>3.3.1</plugin.maven-resources-plugin>
-		<plugin.dependency.maven-filtering>3.3.1</plugin.dependency.maven-filtering>
-		<plugin.maven-site-plugin>3.12.1</plugin.maven-site-plugin>
-		<plugin.maven-source-plugin>3.3.0</plugin.maven-source-plugin>
-		<plugin.maven-surefire-plugin>3.1.2</plugin.maven-surefire-plugin>
+		<plugin.dependency.maven-filtering>3.4.0</plugin.dependency.maven-filtering>
+		<plugin.maven-site-plugin>3.21.0</plugin.maven-site-plugin>
+		<plugin.maven-source-plugin>3.3.1</plugin.maven-source-plugin>
+		<plugin.maven-surefire-plugin>3.5.2</plugin.maven-surefire-plugin>
 		<plugin.maven-war-plugin>3.4.0</plugin.maven-war-plugin>
 
 		<!-- Other Maven plugins (and their dependencies) -->
-		<plugin.apache.apache-rat-plugin>0.15</plugin.apache.apache-rat-plugin>
-		<plugin.asciidoctor-maven-plugin>2.2.2</plugin.asciidoctor-maven-plugin>
-		<plugin.dependency.org.asciidoctor.diagram>2.2.3</plugin.dependency.org.asciidoctor.diagram>
-		<plugin.felix.maven-bundle-plugin>5.1.8</plugin.felix.maven-bundle-plugin>
+		<plugin.apache.apache-rat-plugin>0.16.1</plugin.apache.apache-rat-plugin>
+		<plugin.asciidoctor-maven-plugin>2.2.6</plugin.asciidoctor-maven-plugin>
+		<plugin.dependency.org.asciidoctor.diagram>2.3.1</plugin.dependency.org.asciidoctor.diagram>
+		<plugin.felix.maven-bundle-plugin>5.1.9</plugin.felix.maven-bundle-plugin>
 		<plugin.felix.maven-scr-plugin>1.26.4</plugin.felix.maven-scr-plugin>
 		<plugin.gatling.gatling-maven-plugin>3.1.2</plugin.gatling.gatling-maven-plugin>
 		<plugin.jacoco.jacoco-maven-plugin>0.8.7</plugin.jacoco.jacoco-maven-plugin>
-		<plugin.mojo.build-helper-maven-plugin>3.3.0</plugin.mojo.build-helper-maven-plugin>
+		<plugin.mojo.build-helper-maven-plugin>3.6.0</plugin.mojo.build-helper-maven-plugin>
 		<plugin.sonarsource.sonar-maven-plugin>3.9.0.2155</plugin.sonarsource.sonar-maven-plugin>
-		<plugin.mycila.license-maven-plugin>4.1</plugin.mycila.license-maven-plugin>
-		<plugin.servicemix.depends-maven-plugin>1.4.0</plugin.servicemix.depends-maven-plugin>
-		<plugin.sonatype.nexus-staging-maven-plugin>1.6.13</plugin.sonatype.nexus-staging-maven-plugin>
+		<plugin.mycila.license-maven-plugin>4.6</plugin.mycila.license-maven-plugin>
+		<plugin.servicemix.depends-maven-plugin>1.5.0</plugin.servicemix.depends-maven-plugin>
+		<plugin.sonatype.nexus-staging-maven-plugin>1.7.0</plugin.sonatype.nexus-staging-maven-plugin>
 		<plugin.bnd.bnd-maven-plugin>6.4.0</plugin.bnd.bnd-maven-plugin>
 
 		<!-- versions of Maven dependencies (sorted and groupped in arbitrary way)  -->
 
-		<dependency.biz.aQute.bnd.bndlib>6.4.0</dependency.biz.aQute.bnd.bndlib>
+		<dependency.biz.aQute.bnd.bndlib>7.1.0</dependency.biz.aQute.bnd.bndlib>
 
-		<dependency.commons-beanutils>1.9.4</dependency.commons-beanutils>
-		<dependency.commons-codec>1.15</dependency.commons-codec>
+		<dependency.commons-beanutils>1.10.1</dependency.commons-beanutils>
+		<dependency.commons-codec>1.18.0</dependency.commons-codec>
 		<dependency.commons-collections3>3.2.2</dependency.commons-collections3>
 		<dependency.commons-digester>1.8.1</dependency.commons-digester>
 		<dependency.commons-fileupload>1.5</dependency.commons-fileupload>
-		<dependency.commons-io>2.13.0</dependency.commons-io>
-		<dependency.com.fasterxml.classmate>1.5.1</dependency.com.fasterxml.classmate>
-		<dependency.com.fasterxml.jackson.core>2.14.2</dependency.com.fasterxml.jackson.core>
-		<dependency.com.fasterxml.jackson.core.databind>2.14.2</dependency.com.fasterxml.jackson.core.databind>
-		<dependency.com.fasterxml.woodstox>6.4.0</dependency.com.fasterxml.woodstox>
+		<dependency.commons-io>2.18.0</dependency.commons-io>
+		<dependency.com.fasterxml.classmate>1.7.0</dependency.com.fasterxml.classmate>
+		<dependency.com.fasterxml.jackson.core>2.18.2</dependency.com.fasterxml.jackson.core>
+		<dependency.com.fasterxml.jackson.core.databind>2.18.2</dependency.com.fasterxml.jackson.core.databind>
+		<dependency.com.fasterxml.woodstox>6.7.0</dependency.com.fasterxml.woodstox>
 		<dependency.com.sun.activation>1.2.0</dependency.com.sun.activation>
 		<dependency.com.sun.istack>3.0.12</dependency.com.sun.istack>
-		<dependency.com.sun.xml.bind>2.3.7</dependency.com.sun.xml.bind>
+		<dependency.com.sun.xml.bind>2.3.9</dependency.com.sun.xml.bind>
 
 		<!--		<dependency.io.gatling.highcharts>3.6.1</dependency.io.gatling.highcharts>-->
 
-		<dependency.io.undertow>2.2.25.Final</dependency.io.undertow>
+		<dependency.io.undertow>2.2.37.Final</dependency.io.undertow>
 
 		<dependency.jakarta.annotation-api>1.3.5</dependency.jakarta.annotation-api>
 		<dependency.jakarta.el-api>3.0.3</dependency.jakarta.el-api>
@@ -206,14 +206,14 @@
 		<dependency.org.apache.aries.cdi>1.1.5</dependency.org.apache.aries.cdi>
 		<dependency.org.apache.aries.component-dsl>1.2.2</dependency.org.apache.aries.component-dsl>
 		<dependency.org.apache.aries.jax.rs>2.0.2</dependency.org.apache.aries.jax.rs>
-		<dependency.org.apache.aries.spifly>1.3.6</dependency.org.apache.aries.spifly>
+		<dependency.org.apache.aries.spifly>1.3.7</dependency.org.apache.aries.spifly>
 		<dependency.org.apache.aries.util>1.1.3</dependency.org.apache.aries.util>
 
-		<dependency.org.apache.cxf>3.5.5</dependency.org.apache.cxf>
+		<dependency.org.apache.cxf>3.6.6</dependency.org.apache.cxf>
 
 		<dependency.org.apache.commons.collections4>4.4</dependency.org.apache.commons.collections4>
-		<dependency.org.apache.commons.compress>1.23.0</dependency.org.apache.commons.compress>
-		<dependency.org.apache.commons.lang3>3.12.0</dependency.org.apache.commons.lang3>
+		<dependency.org.apache.commons.compress>1.27.1</dependency.org.apache.commons.compress>
+		<dependency.org.apache.commons.lang3>3.17.0</dependency.org.apache.commons.lang3>
 
 		<dependency.org.apache.felix.configadmin>1.9.26</dependency.org.apache.felix.configadmin>
 		<dependency.org.apache.felix.converter>1.0.18</dependency.org.apache.felix.converter>
@@ -222,74 +222,76 @@
 		<dependency.org.apache.felix.framework5>5.6.12</dependency.org.apache.felix.framework5>
 		<dependency.org.apache.felix.framework6>6.0.5</dependency.org.apache.felix.framework6>
 		<dependency.org.apache.felix.framework7>7.0.5</dependency.org.apache.felix.framework7>
+		<dependency.org.apache.felix.inventory>1.1.0</dependency.org.apache.felix.inventory>
 		<dependency.org.apache.felix.metatype>1.2.4</dependency.org.apache.felix.metatype>
 		<!-- Version 2.2.x of felix.scr is for OSGi Core R10+ -->
 		<dependency.org.apache.felix.scr>2.1.30</dependency.org.apache.felix.scr>
-		<dependency.org.codehaus.mojo.animal-sniffer-annotations>1.22</dependency.org.codehaus.mojo.animal-sniffer-annotations>
 		<dependency.org.apache.felix.utils>1.11.8</dependency.org.apache.felix.utils>
-		<dependency.org.apache.felix.webconsole>4.8.4</dependency.org.apache.felix.webconsole>
+		<dependency.org.apache.felix.webconsole>4.9.10</dependency.org.apache.felix.webconsole>
 
 		<dependency.org.apache.geronimo.bundles.commons-discovery>0.4_1</dependency.org.apache.geronimo.bundles.commons-discovery>
 
 		<dependency.org.apache.httpcomponents.client4>4.5.14</dependency.org.apache.httpcomponents.client4>
-		<dependency.org.apache.httpcomponents.client5>5.2.1</dependency.org.apache.httpcomponents.client5>
+		<dependency.org.apache.httpcomponents.client5>5.3.1</dependency.org.apache.httpcomponents.client5>
 		<dependency.org.apache.httpcomponents.core4>4.4.16</dependency.org.apache.httpcomponents.core4>
-		<dependency.org.apache.httpcomponents.core5>5.2.1</dependency.org.apache.httpcomponents.core5>
-		<dependency.org.apache.karaf>4.4.2</dependency.org.apache.karaf>
-		<dependency.org.apache.logging.log4j>2.20.0</dependency.org.apache.logging.log4j>
-		<dependency.org.apache.myfaces>2.3.10</dependency.org.apache.myfaces>
+		<dependency.org.apache.httpcomponents.core5>5.2.5</dependency.org.apache.httpcomponents.core5>
+		<dependency.org.apache.karaf>4.4.7</dependency.org.apache.karaf>
+		<dependency.org.apache.logging.log4j>2.24.3</dependency.org.apache.logging.log4j>
+		<dependency.org.apache.myfaces>2.3.11</dependency.org.apache.myfaces>
 		<dependency.org.apache.myfaces.commons.facelets-examples20>1.0.2.1</dependency.org.apache.myfaces.commons.facelets-examples20>
 		<dependency.org.apache.myfaces.trinidad>2.2.1</dependency.org.apache.myfaces.trinidad>
 		<dependency.org.apache.servicemix.bundles.aopalliance>1.0_6</dependency.org.apache.servicemix.bundles.aopalliance>
 		<dependency.org.apache.servicemix.bundles.jasypt>1.9.3_1</dependency.org.apache.servicemix.bundles.jasypt>
 		<dependency.org.apache.servicemix.bundles.javax-inject>1_3</dependency.org.apache.servicemix.bundles.javax-inject>
 		<dependency.org.apache.taglibs>1.2.5</dependency.org.apache.taglibs>
-		<dependency.org.apache.tomcat>9.0.76</dependency.org.apache.tomcat>
-		<dependency.org.apache.ws.xmlschema>2.3.0</dependency.org.apache.ws.xmlschema>
-		<dependency.org.apache.xbean>4.22</dependency.org.apache.xbean>
+		<dependency.org.apache.tomcat>9.0.104</dependency.org.apache.tomcat>
+		<dependency.org.apache.ws.xmlschema>2.3.1</dependency.org.apache.ws.xmlschema>
+		<dependency.org.apache.xbean>4.26</dependency.org.apache.xbean>
 
-		<dependency.org.bouncycastle>1.73</dependency.org.bouncycastle>
+		<dependency.org.bouncycastle>1.80</dependency.org.bouncycastle>
 
-		<dependency.org.codehaus.woodstox.stax2-api>4.2.1</dependency.org.codehaus.woodstox.stax2-api>
+		<dependency.org.codehaus.woodstox.stax2-api>4.2.2</dependency.org.codehaus.woodstox.stax2-api>
 
-		<dependency.org.eclipse.jdt.ecj>3.32.0</dependency.org.eclipse.jdt.ecj>
+		<!-- 3.34.0 is JDK17+ -->
+		<dependency.org.eclipse.jdt.ecj>3.33.0</dependency.org.eclipse.jdt.ecj>
 
 		<!-- Please keep Maven and OSGi version in sync -->
-		<dependency.org.eclipse.jetty>10.0.15</dependency.org.eclipse.jetty>
-		<dependency.org.eclipse.jetty.osgi>10.0.15</dependency.org.eclipse.jetty.osgi>
+		<dependency.org.eclipse.jetty>10.0.24</dependency.org.eclipse.jetty>
+		<dependency.org.eclipse.jetty.osgi>10.0.24</dependency.org.eclipse.jetty.osgi>
 		<dependency.org.eclipse.jetty.alpn>1.1.3.v20160715</dependency.org.eclipse.jetty.alpn>
 		<dependency.org.eclipse.jetty.alpn.osgi>1.1.3</dependency.org.eclipse.jetty.alpn.osgi>
 
-		<dependency.org.eclipse.platform.osgi>3.18.200</dependency.org.eclipse.platform.osgi>
+		<dependency.org.eclipse.platform.osgi>3.22.0</dependency.org.eclipse.platform.osgi>
 
 		<dependency.org.glassfish.hk2>2.6.1</dependency.org.glassfish.hk2>
 		<dependency.org.glassfish.hk2.osgi-locator>1.0.3</dependency.org.glassfish.hk2.osgi-locator>
-		<dependency.org.glassfish.jersey>2.38</dependency.org.glassfish.jersey>
+		<dependency.org.glassfish.jersey>2.46</dependency.org.glassfish.jersey>
 
-		<dependency.org.javassist>3.29.2-GA</dependency.org.javassist>
+		<dependency.org.javassist>3.30.2-GA</dependency.org.javassist>
 		<dependency.org.jasypt>1.9.3</dependency.org.jasypt>
-		<!-- 1.3.0.Final has osgi.ee; filter:="(osgi.ee=UNKNOWN)" -->
-		<dependency.org.jboss.classfilewriter>1.2.5.Final</dependency.org.jboss.classfilewriter>
-		<dependency.org.jboss.logging>3.5.0.Final</dependency.org.jboss.logging>
-		<dependency.org.jboss.threads>3.5.0.Final</dependency.org.jboss.threads>
+		<dependency.org.jboss.classfilewriter>1.3.1.Final</dependency.org.jboss.classfilewriter>
+		<dependency.org.jboss.logging>3.6.1.Final</dependency.org.jboss.logging>
+		<dependency.org.jboss.threads>3.6.1.Final</dependency.org.jboss.threads>
 		<!-- 3.1.7+ doesn't work with aries-cdi because of WELD-2581 -->
 		<dependency.org.jboss.weld>3.1.6.Final</dependency.org.jboss.weld>
-		<dependency.org.jboss.xnio>3.8.9.Final</dependency.org.jboss.xnio>
+		<dependency.org.jboss.xnio>3.8.16.Final</dependency.org.jboss.xnio>
 
 		<dependency.org.jline>3.21.0</dependency.org.jline>
-		<dependency.org.jsoup>1.15.4</dependency.org.jsoup>
+		<dependency.org.jsoup>1.18.3</dependency.org.jsoup>
 		<!-- Special version of Keycloak that will never exceed 18.0.x - the last version with OSGi/Karaf/PaxWeb support -->
 		<dependency.org.keycloak18>18.0.2</dependency.org.keycloak18>
 		<!-- Keycloak version newer than 18 - just the latest available upstream version -->
-		<dependency.org.keycloak>21.0.0</dependency.org.keycloak>
+		<dependency.org.keycloak>22.0.4</dependency.org.keycloak>
+		<!-- 5.x is for JDK11+ -->
 		<dependency.org.mockito>4.11.0</dependency.org.mockito>
+		<dependency.org.mortbay.jasper.apache-jsp>9.0.96</dependency.org.mortbay.jasper.apache-jsp>
 		<dependency.org.mortbay.jetty.alpn>8.1.13.v20181017</dependency.org.mortbay.jetty.alpn>
 
 		<dependency.org.ops4j.base>1.5.1</dependency.org.ops4j.base>
 		<dependency.org.ops4j.pax.exam>4.13.5</dependency.org.ops4j.pax.exam>
-		<dependency.org.ops4j.pax.logging>2.2.2</dependency.org.ops4j.pax.logging>
+		<dependency.org.ops4j.pax.logging>2.2.8</dependency.org.ops4j.pax.logging>
 		<dependency.org.ops4j.pax.swissbox>1.8.5</dependency.org.ops4j.pax.swissbox>
-		<dependency.org.ops4j.pax.url>2.6.14</dependency.org.ops4j.pax.url>
+		<dependency.org.ops4j.pax.url>2.6.16</dependency.org.ops4j.pax.url>
 
 		<dependency.org.osgi.core>7.0.0</dependency.org.osgi.core>
 		<dependency.org.osgi.core8>8.0.0</dependency.org.osgi.core8>
@@ -299,14 +301,15 @@
 		<dependency.org.osgi.util.function>1.2.0</dependency.org.osgi.util.function>
 		<dependency.org.osgi.util.promise>1.3.0</dependency.org.osgi.util.promise>
 
-		<dependency.org.ow2.asm>9.5</dependency.org.ow2.asm>
-		<dependency.org.primefaces>12.0.0</dependency.org.primefaces>
+		<dependency.org.ow2.asm>9.7.1</dependency.org.ow2.asm>
+		<dependency.org.owasp.encoder>1.3.1</dependency.org.owasp.encoder>
+		<dependency.org.primefaces>14.0.11</dependency.org.primefaces>
 		<dependency.org.slf4j>1.7.36</dependency.org.slf4j>
-		<dependency.org.springframework>5.3.27</dependency.org.springframework>
+		<dependency.org.springframework>5.3.39</dependency.org.springframework>
 		<dependency.org.vaadin.artur>1.7.1</dependency.org.vaadin.artur>
 
 		<dependency.org.wildfly.client>1.0.1.Final</dependency.org.wildfly.client>
-		<dependency.org.wildfly.common>1.6.0.Final</dependency.org.wildfly.common>
+		<dependency.org.wildfly.common>1.7.0.Final</dependency.org.wildfly.common>
 
 		<dependency.org.yaml.snakeyaml>1.33</dependency.org.yaml.snakeyaml>
 	</properties>
@@ -678,7 +681,8 @@
 								</requireJavaVersion>
 								<requireManagedDeps implementation="org.commonjava.maven.enforcer.rule.EnforceManagedDepsRule">
 									<checkProfiles>true</checkProfiles>
-									<failOnViolation>true</failOnViolation>
+									<!-- Something happened between Maven 3.9.8 and 3.9.9 -->
+									<failOnViolation>false</failOnViolation>
 								</requireManagedDeps>
 							</rules>
 						</configuration>
@@ -1083,6 +1087,12 @@
 				<version>${project.version}</version>
 				<type>war</type>
 			</dependency>
+			<dependency>
+				<groupId>org.ops4j.pax.web.samples</groupId>
+				<artifactId>war-filters</artifactId>
+				<version>${project.version}</version>
+				<type>war</type>
+			</dependency>
 
 			<dependency>
 				<groupId>org.ops4j.pax.web.samples</groupId>
@@ -1186,6 +1196,18 @@
 			<dependency>
 				<groupId>org.ops4j.pax.web.samples</groupId>
 				<artifactId>war-security</artifactId>
+				<version>${project.version}</version>
+				<type>war</type>
+			</dependency>
+
+			<dependency>
+				<groupId>org.ops4j.pax.web.samples</groupId>
+				<artifactId>filter-bundle</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ops4j.pax.web.samples</groupId>
+				<artifactId>wab-using-filter</artifactId>
 				<version>${project.version}</version>
 				<type>war</type>
 			</dependency>
@@ -1407,12 +1429,17 @@
 
 			<dependency>
 				<groupId>org.ops4j.pax.web</groupId>
-				<artifactId>pax-web-tomcat-keycloak18</artifactId>
+				<artifactId>pax-web-jetty-keycloak18</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ops4j.pax.web</groupId>
 				<artifactId>pax-web-jetty-keycloak</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ops4j.pax.web</groupId>
+				<artifactId>pax-web-tomcat-keycloak18</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -1692,7 +1719,7 @@
 			<dependency>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>org.apache.felix.framework</artifactId>
-				<version>${dependency.org.apache.felix.framework5}</version>
+				<version>${dependency.org.apache.felix.framework6}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.felix</groupId>
@@ -1715,14 +1742,14 @@
 				<version>${dependency.org.apache.felix.scr}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>animal-sniffer-annotations</artifactId>
-				<version>${dependency.org.codehaus.mojo.animal-sniffer-annotations}</version>
-			</dependency>
-			<dependency>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>org.apache.felix.eventadmin</artifactId>
 				<version>${dependency.org.apache.felix.eventadmin}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.inventory</artifactId>
+				<version>${dependency.org.apache.felix.inventory}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.felix</groupId>
@@ -1734,6 +1761,11 @@
 				<groupId>org.apache.felix</groupId>
 				<artifactId>org.apache.felix.webconsole</artifactId>
 				<version>${dependency.org.apache.felix.webconsole}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.owasp.encoder</groupId>
+				<artifactId>encoder</artifactId>
+				<version>${dependency.org.owasp.encoder}</version>
 			</dependency>
 
 			<dependency>
@@ -1851,7 +1883,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.apache.karaf.features</groupId>
-				<artifactId>spring</artifactId>
+				<artifactId>spring-legacy</artifactId>
 				<version>${dependency.org.apache.karaf}</version>
 				<type>xml</type>
 				<classifier>features</classifier>
@@ -2273,6 +2305,11 @@
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-api</artifactId>
+				<version>${dependency.org.apache.logging.log4j}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
 				<version>${dependency.org.apache.logging.log4j}</version>
 			</dependency>
 			<dependency>
@@ -3156,12 +3193,22 @@
 
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${dependency.org.apache.httpcomponents.client4}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient-osgi</artifactId>
 				<version>${dependency.org.apache.httpcomponents.client4}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpcore-osgi</artifactId>
+				<version>${dependency.org.apache.httpcomponents.core4}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpcore</artifactId>
 				<version>${dependency.org.apache.httpcomponents.core4}</version>
 			</dependency>
 
@@ -3300,6 +3347,10 @@
 	</dependencyManagement>
 
 	<repositories>
+		<repository>
+			<id>staging-orgapachetomcat-1461</id>
+			<url>https://repository.apache.org/content/repositories/orgapachetomcat-1461</url>
+		</repository>
 		<repository>
 			<id>apache-snapshots</id>
 			<name>Apache Snapshots</name>
@@ -3571,6 +3622,7 @@
 								<!-- README -->
 								<exclude>README.md</exclude>
 								<exclude>**/Readme.md</exclude>
+								<exclude>**/readme.md</exclude>
 								<exclude>**/readme*.txt</exclude>
 								<exclude>**/*.adoc</exclude>
 								<!-- archetype resources -->

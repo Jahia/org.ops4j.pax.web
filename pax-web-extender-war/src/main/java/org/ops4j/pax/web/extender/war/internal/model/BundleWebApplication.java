@@ -28,6 +28,7 @@ import java.util.Enumeration;
 import java.util.EventListener;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -96,6 +97,7 @@ import org.ops4j.pax.web.service.spi.servlet.DefaultSessionCookieConfig;
 import org.ops4j.pax.web.service.spi.servlet.OsgiServletContextClassLoader;
 import org.ops4j.pax.web.service.spi.task.Batch;
 import org.ops4j.pax.web.service.spi.task.Change;
+import org.ops4j.pax.web.service.spi.task.FilterStateChange;
 import org.ops4j.pax.web.service.spi.util.Utils;
 import org.ops4j.pax.web.service.spi.util.WebContainerManager;
 import org.ops4j.pax.web.utils.ClassPathUtil;
@@ -706,6 +708,15 @@ public class BundleWebApplication {
 
 				allocatedServletContextModel = view.getServletContext(bundle, contextPath);
 				allocatedOsgiContextModel = view.getOsgiContext(bundle, contextPath);
+				ServletContextModel scm = allocatedServletContextModel;
+				OsgiContextModel ocm = allocatedOsgiContextModel;
+
+				if (scm == null || ocm == null) {
+					LOG.debug("Context path {} was allocated and deallocated before it could be used. {} will wait.",
+							contextPath, this);
+					deploymentState.compareAndSet(state, State.WAITING_FOR_CONTEXT);
+					return;
+				}
 
 				LOG.info("Allocated context for {}: {}", contextPath, allocatedOsgiContextModel);
 
@@ -716,7 +727,7 @@ public class BundleWebApplication {
 				// This is important advantage of pax-web-extender-war over pax-web-extender-whiteboard. Here
 				// we have complete web application, while in Whiteboard, we build it element by element.
 				// Here we can do it "transactionally" without bothering about conflicts etc.
-				buildModel();
+				buildModel(allocatedServletContextModel, allocatedOsgiContextModel);
 
 				// from now on, this.contextPath is "ours" and we can do anything with it
 				if (deploymentState.compareAndSet(state, State.DEPLOYING)) {
@@ -1271,16 +1282,15 @@ public class BundleWebApplication {
 	 * {@code org.ops4j.pax.web.service.spi.model} package configured in a transactional {@link Batch}.
 	 */
 	@SuppressWarnings("unchecked")
-	private void buildModel() {
+	private void buildModel(ServletContextModel allocatedServletContextModel, OsgiContextModel allocatedOsgiContextModel) {
 		final Batch wabBatch = new Batch("Deployment of " + this);
 		wabBatch.setShortDescription("deploy " + this.contextPath);
 
 		wabBatch.beginTransaction(contextPath);
 
 		// we simply take the allocated (and associated with our bundle and our bundle's Web-ContextPath) context
-		ServletContextModel scm = allocatedServletContextModel;
 		// but we still add it to the batch - ServerModel has special handling for allocated Servlet/OsgiContextModels
-		wabBatch.addServletContextModel(scm);
+		wabBatch.addServletContextModel(allocatedServletContextModel);
 
 		// 1. The most important part - the OsgiContextModel which bridges web elements from the WAB to actual
 		// servlet context in several aspects - it scopes access to resources and provides proper classloader.
@@ -1295,6 +1305,9 @@ public class BundleWebApplication {
 
 		// we simply take the allocated (and associated with our bundle and our bundle's Web-ContextPath) context
 		final OsgiContextModel ocm = allocatedOsgiContextModel;
+
+		// https://issues.apache.org/jira/browse/KARAF-7774
+		ocm.setDisplayName(mainWebXml.getDisplayName());
 
 		ocm.setWab(true);
 		ocm.setServiceId(0);
@@ -1462,7 +1475,7 @@ public class BundleWebApplication {
 		// 1.6 context specific configuration URLs
 		ocm.getServerSpecificDescriptors().addAll(serverSpecificDescriptors);
 
-		wabBatch.addOsgiContextModel(ocm, scm);
+		wabBatch.addOsgiContextModel(ocm, allocatedServletContextModel);
 		wabBatch.associateOsgiContextModel(httpContext, ocm);
 
 		// elements from web.xml are processed to create a Batch that'll be send to a dedicated view of a WebContainer.
@@ -1754,13 +1767,17 @@ public class BundleWebApplication {
 			wabBatch.addServletModel(builder.build());
 		});
 
-		// 4. filters and their mappings
+		// 4. filters and their mappings - we MUST preserve the order of mappings from web.xml
 		Map<String, TreeMap<FilterModel, List<OsgiContextModel>>> allFilterModels = new HashMap<>();
 		TreeMap<FilterModel, List<OsgiContextModel>> filterModels = new TreeMap<>();
 		allFilterModels.put(contextPath, filterModels);
 		final Map<String, List<FilterMap>> filterMappings = new HashMap<>();
+		final Map<FilterMap, Integer> mappingOrder = new IdentityHashMap<>();
+		final int[] counter = new int[] { 1 };
 		mainWebXml.getFilterMappings().forEach(fm -> {
 			filterMappings.computeIfAbsent(fm.getFilterName(), n -> new LinkedList<>()).add(fm);
+			mappingOrder.put(fm, counter[0]);
+			counter[0]++;
 		});
 		mainWebXml.getFilters().forEach((fn, def) -> {
 			Class<Filter> filterClass = null;
@@ -1784,6 +1801,7 @@ public class BundleWebApplication {
 
 			for (FilterMap map : filterMappings.get(fn)) {
 				FilterModel.Mapping m = new FilterModel.Mapping();
+				m.setOrder(mappingOrder.get(map));
 				String[] dtn = map.getDispatcherNames();
 				if (dtn == null || dtn.length == 0) {
 					m.setDispatcherTypes(new DispatcherType[] { DispatcherType.REQUEST });
@@ -1808,7 +1826,9 @@ public class BundleWebApplication {
 		});
 		if (filterModels.size() > 0) {
 			// this is for ServerController
-			wabBatch.updateFilters(allFilterModels, false);
+			FilterStateChange change = new FilterStateChange(allFilterModels, false);
+			change.setUseWebOrder(true);
+			wabBatch.getOperations().add(change);
 		}
 
 		// 5. listeners

@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>org.ops4j.pax</groupId>
 		<artifactId>web</artifactId>
-		<version>9.0.10-SNAPSHOT</version>
+		<version>9.0.21-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -119,6 +119,7 @@
 							<!-- ranges indicate Servlet API 3.1+ (JavaEE 7+) -->
 							javax.servlet;version="[3.1,5)",
 							javax.servlet.annotation;version="[3.1,5)",
+							javax.servlet.descriptor;version="[3.1,5)",
 							javax.servlet.http;version="[3.1,5)",
 
 							<!-- ranges indicate we can work with OSGi Core R6+ -->

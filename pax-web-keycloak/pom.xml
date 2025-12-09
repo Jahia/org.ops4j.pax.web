@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>org.ops4j.pax</groupId>
 		<artifactId>web</artifactId>
-		<version>9.0.10-SNAPSHOT</version>
+		<version>9.0.21-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -63,6 +63,11 @@
 			<dependency>
 				<groupId>org.keycloak</groupId>
 				<artifactId>keycloak-adapter-core</artifactId>
+				<version>${dependency.org.keycloak}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.keycloak</groupId>
+				<artifactId>keycloak-policy-enforcer</artifactId>
 				<version>${dependency.org.keycloak}</version>
 			</dependency>
 

@@ -417,11 +417,6 @@ class UndertowServerWrapper implements BatchVisitor, UndertowSupport {
 			throw new IllegalArgumentException("Problem configuring Undertow server: " + e.getMessage(), e);
 		}
 
-		// Configure NCSA RequestLogHandler if needed
-		if (configuration.logging().isLogNCSAFormatEnabled()) {
-			configureRequestLog();
-		}
-
 		// If external configuration added some connectors, we have to ensure they match declaration from
 		// PID config: org.osgi.service.http.enabled and org.osgi.service.http.secure.enabled
 		verifyListenerConfiguration();
@@ -625,12 +620,10 @@ class UndertowServerWrapper implements BatchVisitor, UndertowSupport {
 					rh = filter.configure(rh, p);
 				}
 
-				if (rootHandler instanceof PathHandler) {
-					if (LOG.isDebugEnabled()) {
-						LOG.debug("Adding resource handler for location \"" + context + "\" and base path \"" + base.getCanonicalPath() + "\".");
-					}
-					((PathHandler) rootHandler).addPrefixPath(context, rh);
+				if (LOG.isDebugEnabled()) {
+					LOG.debug("Adding resource handler for location \"{}\" and base path \"{}\".", context, base.getCanonicalPath());
 				}
+				pathHandler.addPrefixPath(context, rh);
 			}
 		}
 
@@ -649,6 +642,14 @@ class UndertowServerWrapper implements BatchVisitor, UndertowSupport {
 				Predicate p = fr.getPredicate() == null ? null : Predicates.parse(fr.getPredicate(), HttpHandler.class.getClassLoader());
 				rootHandler = filter.configure(rootHandler, p);
 			}
+		}
+
+		// Configure NCSA RequestLogHandler if needed - this may also wrap current rootHandler within AccessLogHandler
+		// whether or not the listeners are read from XML file, root handler will be wrapped inside
+		// access log handler, so potential listeners configured during verification
+		// will use access log handler too
+		if (configuration.logging().isLogNCSAFormatEnabled()) {
+			configureRequestLog();
 		}
 
 		// only now create listeners, because rootHandler may have been wrapped
@@ -720,7 +721,9 @@ class UndertowServerWrapper implements BatchVisitor, UndertowSupport {
 						workerForListener, bufferPoolForListener,
 						inetAddress
 				);
-				listeners.put(https.getName(), new UndertowFactory.AcceptingChannelWithAddress(listener, inetAddress));
+				UndertowFactory.AcceptingChannelWithAddress l = new UndertowFactory.AcceptingChannelWithAddress(listener, inetAddress);
+				l.setSecure(https.isSecure());
+				listeners.put(https.getName(), l);
 			}
 		}
 
@@ -1680,8 +1683,7 @@ class UndertowServerWrapper implements BatchVisitor, UndertowSupport {
 	private void removeServletModel(String contextPath, ServletModel model, ServletModelChange change) {
 		// this time we just assume that the servlet context is started
 
-		LOG.info("Removing servlet {}", model);
-		LOG.debug("Removing servlet {} from context {}", model.getName(), contextPath);
+		LOG.info("Removing servlet {} from context {}", model, contextPath);
 
 		// take existing deployment manager and the deployment info from its deployment
 		DeploymentManager manager = getDeploymentManager(contextPath);
@@ -1920,6 +1922,8 @@ class UndertowServerWrapper implements BatchVisitor, UndertowSupport {
 
 			List<FilterInfo> added = new LinkedList<>();
 
+			// order -> [ FilterModel, FilterModel.Mapping ]
+			Map<Integer, Object[]> webOrderMapping = new TreeMap<>();
 			for (FilterModel model : filters) {
 				if (model.isPreprocessor()) {
 					continue;
@@ -1972,7 +1976,37 @@ class UndertowServerWrapper implements BatchVisitor, UndertowSupport {
 				if (!quick || added.size() > 0 || state != DeploymentManager.State.STARTED) {
 					deploymentInfo.addFilter(info);
 
-					configureFilterMappings(model, deploymentInfo);
+					if (!change.useWebOrder()) {
+						configureFilterMappings(model, deploymentInfo);
+					} else {
+						// add mapping later
+						for (FilterModel.Mapping mapping : model.getMappingsPerDispatcherTypes()) {
+							webOrderMapping.put(mapping.getOrder(), new Object[] { model, mapping });
+						}
+					}
+				}
+			}
+
+			if (change.useWebOrder()) {
+				for (Object[] pair : webOrderMapping.values()) {
+					FilterModel model = (FilterModel) pair[0];
+					FilterModel.Mapping mapping = (FilterModel.Mapping) pair[1];
+					String filterName = model.getName();
+
+					for (DispatcherType dt : mapping.getDispatcherTypes()) {
+						if (mapping.getRegexPatterns() != null && mapping.getRegexPatterns().length > 0) {
+							deploymentInfo.addFilterUrlMapping(filterName, "/*", dt);
+						} else if (mapping.getUrlPatterns() != null) {
+							for (String pattern : mapping.getUrlPatterns()) {
+								deploymentInfo.addFilterUrlMapping(filterName, pattern, dt);
+							}
+						}
+						if (mapping.getServletNames() != null) {
+							for (String name : mapping.getServletNames()) {
+								deploymentInfo.addFilterServletNameMapping(filterName, name, dt);
+							}
+						}
+					}
 				}
 			}
 
@@ -2119,6 +2153,7 @@ class UndertowServerWrapper implements BatchVisitor, UndertowSupport {
 
 					if (pendingTransaction(contextPath)) {
 						LOG.debug("Delaying removal of event listener {}", eventListenerModel);
+						delayedRemovals.get(contextPath).add(eventListenerModel);
 						return;
 					}
 
@@ -2733,6 +2768,9 @@ class UndertowServerWrapper implements BatchVisitor, UndertowSupport {
 					deployment.setDefaultSessionTimeout(session.getSessionTimeout() * 60);
 				}
 				SessionCookieConfig scc = session.getSessionCookieConfig();
+				if (scc == null) {
+					scc = configuration.session().getDefaultSessionCookieConfig();
+				}
 				ServletSessionConfig ssc = deployment.getServletSessionConfig();
 				if (scc != null) {
 					if (ssc == null) {

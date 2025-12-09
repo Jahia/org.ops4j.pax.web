@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>org.ops4j.pax.web</groupId>
 		<artifactId>pax-web-keycloak</artifactId>
-		<version>9.0.10-SNAPSHOT</version>
+		<version>9.0.21-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -55,6 +55,7 @@
 						</Export-Package>
 						<Import-Package>
 							org.ops4j.pax.web.service,
+							org.keycloak.adapters.osgi,
 							!org.keycloak.adapters.jetty.*,
 							org.jboss.logging;version="[3.4,4)",
 							*

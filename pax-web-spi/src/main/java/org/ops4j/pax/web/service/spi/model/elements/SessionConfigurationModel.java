@@ -20,9 +20,7 @@ import java.util.Set;
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
 
-import org.ops4j.pax.web.service.PaxWebConstants;
 import org.ops4j.pax.web.service.spi.model.OsgiContextModel;
-import org.ops4j.pax.web.service.spi.servlet.DefaultSessionCookieConfig;
 
 /**
  * <p>Set of parameters configuring HTTP Sessions, referenced from {@link OsgiContextModel}.</p>
@@ -34,10 +32,10 @@ import org.ops4j.pax.web.service.spi.servlet.DefaultSessionCookieConfig;
 public class SessionConfigurationModel {
 
 	/** {@code <session-config>/<session-timeout>} */
-	private Integer sessionTimeout = PaxWebConstants.DEFAULT_SESSION_TIMEOUT;
+	private Integer sessionTimeout;
 
 	/** {@code <session-config>/<cookie-config>} */
-	private SessionCookieConfig sessionCookieConfig = new DefaultSessionCookieConfig();
+	private SessionCookieConfig sessionCookieConfig;
 
 	/** {@code <session-config>/<tracking-mode>} */
 	private final Set<SessionTrackingMode> trackingModes = new HashSet<>();
@@ -64,10 +62,18 @@ public class SessionConfigurationModel {
 	//  - org.apache.catalina.session.StandardManager/org.apache.catalina.session.FileStore
 	//  - io.undertow.server.session.SessionManager/io.undertow.servlet.api.SessionPersistenceManager (no built-in file persistence manager in Undertow)
 
+	/**
+	 * Get session timeout in minutes
+	 * @return
+	 */
 	public Integer getSessionTimeout() {
-		return sessionTimeout == null ? PaxWebConstants.DEFAULT_SESSION_TIMEOUT : sessionTimeout;
+		return sessionTimeout;
 	}
 
+	/**
+	 * Sets session timeout in minutes
+	 * @param sessionTimeout
+	 */
 	public void setSessionTimeout(Integer sessionTimeout) {
 		this.sessionTimeout = sessionTimeout;
 	}
